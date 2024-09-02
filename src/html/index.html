@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <meta charset="UTF-8">
+    <title id="title">Fallout Account Manager - v1.0.0</title>
+    <link href="../assets/images/logo.png" rel="icon" type="image/gif" class="headerlogo">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script defer src="../scripts/password.js"></script>
+    <script defer src="../scripts/accounts.js"></script>
+    <script defer src="../scripts/folder.js"></script>
+<body>
+    <header>
+        <nav>
+            <ul class="icon__links">
+                <li><a id="Github" href="https://github.com/Lachyx" target="_blank"><i class="fab fa-github"></i></a></li>
+                <li><a id="Discord" href="https://discord.com/invite/W5FXs28vej" target="_blank"><i class="fab fa-discord"></i></a></li>     
+                <li ><a id="Folder" href="Folder"><i class="fa-solid fa-folder"></i></a></li>                 
+            </ul>
+            
+        </nav>
+        <a class="cta" href="#"><button>Import</button></a>
+    </header>
+
+    <main>
+        <div class="grid-container">
+            <div class="accounts">
+                <h2>Accounts</h2>
+            </div>
+            <div class="details">
+                <div class="details-header">
+                    <h2>Account Details</h2>
+                    <div class="details-grid">
+                        <div class="details-item">
+                            <span class="details-label">Character: </span>
+                            <span id="character-name"> N/A</span>
+                        </div>
+                        <div class="details-item">
+                            <span class="details-label">Account: </span>
+                            <span id="account-name"> N/A</span>
+                        </div>
+                        <div class="details-item">
+                            <span class="details-label">Password: </span>
+                            <span id="password">********</span>
+                            <i id="toggle-password" class="fa-solid fa-eye"></i>
+                            <i id="copy-password" class="fa-solid fa-clipboard"></i>
+                        </div>
+                    </div>
+                </div>
+                <h2>Account Inventory</h2>
+                <input type="text" id="search-bar" placeholder="Example .45" class="search-bar">
+                <div class="details-block">
+                    <pre id="details-text"></pre>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

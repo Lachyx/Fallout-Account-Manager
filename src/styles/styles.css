@@ -1,0 +1,208 @@
+* {
+    background-color: rgb(21 21 21);
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    transition: all 0.3s ease;
+    color: #edf0f1;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Roboto, "Inter", "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+li, a, button {
+    font-size: 16px;
+    text-decoration: none;
+}
+
+
+header {
+    background-color: rgb(31, 30, 30);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10%;
+    z-index: 1;
+}
+
+.icon__links {
+    background-color: rgb(31, 30, 30);
+    list-style: none;
+}
+
+.icon__links li {
+    display: inline-block;
+    border-radius: 50%;
+    padding: 0 0px;
+}
+
+.icon__links li a {
+    color: #edf0f1;
+    background-color: rgba(15, 16, 16, 1);
+    padding: 10px;
+    border-radius: 100%;
+    transition: all 0.3s ease 0s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon__links li a i {
+    font-size: 20px;
+}
+
+header button {
+    width: 100px;
+    height: 30px;
+    padding: 0;
+    cursor: pointer;
+    background: linear-gradient(to right, #0077ff, #00d4ff, #0077ff, #ffffff);
+    border: none;
+    border-radius: 100%;
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: gradient-animation 10s ease infinite;
+    text-align: center;
+}
+
+
+
+@keyframes gradient-animation {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    50% {
+        background-position: 100% 100%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 0.5fr 2fr;
+    gap: 20px;
+    padding: 20px;
+    z-index: 1;
+}
+
+.accounts {
+    background-color: rgb(31, 30, 30);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.accounts h2 {
+    text-align: center;
+}
+
+.account-block {
+    background-color: rgb(41, 41, 41);
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.account-block:hover {
+    background-color: rgb(51, 51, 51);
+}
+
+.details-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+#password {
+    margin-right: 10px;
+}
+
+#toggle-password,
+#copy-password {
+    font-size: 18px;
+    color: grey;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#toggle-password:hover,
+#copy-password:hover {
+    color: rgb(70, 60, 60);
+}
+
+.details-block {
+    background-color: rgb(31, 30, 30);
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.details-grid #details-item{
+    background-color: rgb(31, 30, 30);
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.details-label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.item-container {
+    display: flex;
+    align-items: center;
+}
+
+.toggle-arrow {
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.description {
+    margin-top: 10px;
+    padding-left: 20px;
+    font-size: 14px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(10px); 
+    transition: opacity 0.5s ease, transform 0.5s ease; 
+}
+
+.item i {
+    margin-right: 10px;
+}
+
+
+.search-bar {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: rgb(41, 41, 41);
+    color: #edf0f1;
+    font-size: 16px;
+}
+
+.search-bar::placeholder {
+    color: #999;
+}
+
+.item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}

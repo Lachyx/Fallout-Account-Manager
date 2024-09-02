@@ -40,7 +40,7 @@ const exampleAccounts = {
     "playerInventory": [],
     "stashInventory": [],
     "AccountInfoData": { "name": "Example" },
-    "CharacterInfoData": { "level": 1021, "name": "Hi" }
+    "CharacterInfoData": { "level": 20, "name": "Hi" }
   }
 };
 

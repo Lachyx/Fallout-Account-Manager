@@ -11,12 +11,13 @@ function createWindow() {
             preload: path.join(__dirname, './preload.js'),
             contextIsolation: true,
             nodeIntegration: false, 
-        }
+        },
+        icon: path.join(__dirname, './assets/images/logo.ico'),
     });
     Menu.setApplicationMenu(null)
     win.loadFile('src/html/index.html');
     win.on('ready-to-show', win.show)
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {

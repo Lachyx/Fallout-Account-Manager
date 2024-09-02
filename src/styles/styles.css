@@ -179,7 +179,7 @@ header button {
     margin-bottom: 10px;
     opacity: 0;
     transform: translateY(10px); 
-    transition: opacity 0.5s ease, transform 0.5s ease; 
+    transition: opacity 0.5s ease, transform 0.5s ease;
     border-radius: 8px;
 }
 

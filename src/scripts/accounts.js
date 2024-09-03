@@ -1,119 +1,126 @@
 window.addEventListener('DOMContentLoaded', async () => {
     try {
-        const accounts = await window.electronAPI.loadAccounts();
+        const AccountsData = await window.electronAPI.loadAccounts();
 
-        if (accounts && accounts.characterInventories) {
-            const accountsContainer = document.querySelector('.accounts');
-            
-            accountsContainer.innerHTML = '';
+        if (AccountsData && AccountsData.characterInventories) {
+            const AccountsContainer = document.querySelector('.accounts');
+            AccountsContainer.innerHTML = '';
 
-            const accountNames = Object.keys(accounts.characterInventories);
+            const AccountNames = Object.keys(AccountsData.characterInventories);
 
-            if (accountNames.length === 0) {
-                accountsContainer.textContent = "No accounts available.";
+            if (AccountNames.length === 0) {
+                AccountsContainer.textContent = "No accounts available.";
                 return;
             }
 
-            accountNames.forEach((name) => {
-                const account = accounts.characterInventories[name];
+            AccountNames.forEach((Name) => {
+                const Account = AccountsData.characterInventories[Name];
                 
-                if (account && account.CharacterInfoData && account.AccountInfoData) {
-                    const accountDiv = document.createElement('div');
-                    accountDiv.classList.add('account-block');
-                    accountDiv.textContent = `${account.AccountInfoData.name}:${account.CharacterInfoData.name}`;
-                    accountDiv.addEventListener('click', () => {
-                        document.getElementById('character-name').textContent = account.CharacterInfoData.name;
-                        document.getElementById('account-name').textContent = account.AccountInfoData.name;
-                        loadInventory(account);
+                if (Account && Account.CharacterInfoData && Account.AccountInfoData) {
+                    const AccountDiv = document.createElement('div');
+                    AccountDiv.classList.add('account-block');
+                    AccountDiv.textContent = `${Account.AccountInfoData.name}:${Account.CharacterInfoData.name}`;
+                    AccountDiv.addEventListener('click', () => {
+                        document.getElementById('character-name').textContent = Account.CharacterInfoData.name;
+                        document.getElementById('account-name').textContent = Account.AccountInfoData.name;
+                        LoadInventory(Account);
                     });
 
-                    accountsContainer.appendChild(accountDiv);
+                    AccountsContainer.appendChild(AccountDiv);
                 } else {
-                    console.error(`Missing data for account: ${name}`);
+                    console.error(`Missing data for account: ${Name}`);
                 }
             });
         } else {
             console.error("Accounts data or characterInventories is not defined.");
             document.querySelector('.accounts').textContent = "Error loading accounts.";
         }
-    } catch (error) {
-        console.error("Failed to load accounts:", error);
+    } catch (Error) {
+        console.error("Failed to load accounts:", Error);
         document.querySelector('.accounts').textContent = "Error loading accounts.";
     }
 });
 
-function loadInventory(account) {
-    if (account && (account.playerInventory || account.stashInventory)) {
-        const playerInventory = account.playerInventory || [];
-        const stashInventory = account.stashInventory || [];
-        const inventory = playerInventory.concat(stashInventory);
+function LoadInventory(Account) {
+    if (Account && (Account.playerInventory || Account.stashInventory)) {
+        const PlayerInventory = Account.playerInventory || [];
+        const StashInventory = Account.stashInventory || [];
+        const CombinedInventory = PlayerInventory.concat(StashInventory);
 
-        const descTally = {};
+        const DescriptionTally = {};
 
-        inventory.forEach(item => {
-            const itemName = item.text;
-            let descFound = false;
+        CombinedInventory.forEach(Item => {
+            const ItemName = Item.text;
+            const ItemCount = Item.count || 1;
+            let DescriptionFound = false;
 
-            item.ItemCardEntries.forEach(entry => {
-                if (entry.text === "DESC" && !item.isQuestItem) {
-                    descFound = true;
-                    const key = `${itemName} - ${entry.value}`;
+            Item.ItemCardEntries.forEach(Entry => {
+                if (Entry.text === "DESC" && !Item.isQuestItem) {
+                    DescriptionFound = true;
+                    const Key = `${ItemName} - ${Entry.value}`;
 
-                    if (descTally[key]) {
-                        descTally[key]++;
+                    if (DescriptionTally[Key]) {
+                        DescriptionTally[Key] += ItemCount;
                     } else {
-                        descTally[key] = 1;
+                        DescriptionTally[Key] = ItemCount;
                     }
                 }
             });
 
-            if (!descFound && !item.isQuestItem) {
-                const key = `${itemName}`;
-                if (descTally[key]) {
-                    descTally[key]++;
+            if (!DescriptionFound && !Item.isQuestItem) {
+                const Key = `${ItemName}`;
+                if (DescriptionTally[Key]) {
+                    DescriptionTally[Key] += ItemCount;
                 } else {
-                    descTally[key] = 1;
+                    DescriptionTally[Key] = ItemCount;
                 }
             }
         });
 
-        const detailsBlock = document.querySelector('.details-block');
-        const searchBar = document.getElementById('search-bar');
-        
-        function displayItems(filteredItems) {
-            detailsBlock.innerHTML = '';
-            filteredItems.forEach(([key, count], index) => {
-                const div = document.createElement('div');
-                div.className = 'item';
+        const DetailsBlock = document.querySelector('.details-block');
+        const SearchBar = document.getElementById('search-bar');
+        const ItemCount = document.getElementById('item-count');
 
-                const content = document.createElement('p');
-                content.textContent = `${key}: ${count}`;
+        function DisplayItems(FilteredItems) {
+            const ItemsContainer = document.createElement('div');
+            FilteredItems.forEach(([Key, Count], Index) => {
+                const ItemDiv = document.createElement('div');
+                ItemDiv.className = 'item';
+
+                const Content = document.createElement('p');
+                Content.textContent = `${Key}: ${Count}`;
                 
-                const description = document.createElement('div');
-                description.className = 'description';
-                description.style.display = 'none';
-                description.innerHTML = `<p>${key}</p>`;
-                div.appendChild(content);
-                div.appendChild(description);
-                detailsBlock.appendChild(div);
+                const Description = document.createElement('div');
+                Description.className = 'description';
+                Description.style.display = 'none';
+                Description.innerHTML = `<p>${Key}</p>`;
+                ItemDiv.appendChild(Content);
+                ItemDiv.appendChild(Description);
+                ItemsContainer.appendChild(ItemDiv);
 
                 setTimeout(() => {
-                    div.classList.add('visible');
-                }, index * 25);
+                    ItemDiv.classList.add('visible');
+                }, Index * 25);
             });
+
+            const OldItems = DetailsBlock.querySelectorAll('.item');
+            OldItems.forEach(item => item.remove());
+            DetailsBlock.appendChild(ItemsContainer);
+
+            ItemCount.textContent = `${FilteredItems.length}/${Object.keys(DescriptionTally).length}`;
         }
         
-        const itemsArray = Object.entries(descTally);
-        displayItems(itemsArray);
+        const ItemsArray = Object.entries(DescriptionTally);
+        DisplayItems(ItemsArray);
         
-        searchBar.addEventListener('input', () => {
-            const searchTerm = searchBar.value.toLowerCase();
-            const filteredItems = itemsArray.filter(([key]) => key.toLowerCase().includes(searchTerm));
-            detailsBlock.innerHTML = '';
-            displayItems(filteredItems);
+        SearchBar.addEventListener('input', () => {
+            const SearchTerm = SearchBar.value.toLowerCase();
+            const FilteredItems = ItemsArray.filter(([Key]) => Key.toLowerCase().includes(SearchTerm));
+            DisplayItems(FilteredItems);
         });
     } else {
         console.error("No inventory data found for the selected account.");
         document.querySelector('.details-block').textContent = "No inventory data available.";
+        document.getElementById('item-count').textContent = "0/0";
     }
 }

@@ -9,7 +9,6 @@ function createWindow() {
         show: false,
         webPreferences: {
             preload: path.join(__dirname, './preload.js'),
-            contextIsolation: true,
             nodeIntegration: false, 
         },
         icon: path.join(__dirname, './assets/images/logo.ico'),
@@ -17,7 +16,7 @@ function createWindow() {
     Menu.setApplicationMenu(null)
     win.loadFile('src/html/index.html');
     win.on('ready-to-show', win.show)
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {
@@ -90,3 +89,14 @@ ipcMain.handle('folder-open', () => {
   const dataFolderPath = path.join(require('electron').app.getPath('appData'), 'fallout-account-manager', 'Data');
   shell.openPath(dataFolderPath);
 })
+
+ipcMain.handle('save-file', async (event, filename, data) => {
+    const dataDir = path.join(require('electron').app.getPath('appData'), 'fallout-account-manager', 'Data');
+    const filePath = path.join(dataDir, filename);
+    try {
+        await fs.promises.writeFile(filePath, data);
+        return 'File saved successfully';
+    } catch (error) {
+        throw new Error('Failed to save file: ' + error.message);
+    }
+});

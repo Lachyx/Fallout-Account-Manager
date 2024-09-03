@@ -100,7 +100,7 @@ function LoadInventory(Account) {
 
                 setTimeout(() => {
                     ItemDiv.classList.add('visible');
-                }, Index * 25);
+                }, Index * 10);
             });
 
             const OldItems = DetailsBlock.querySelectorAll('.item');

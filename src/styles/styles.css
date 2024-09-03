@@ -118,6 +118,7 @@ header button {
 .details-item {
     display: flex;
     align-items: center;
+    text-decoration: none;
     margin-bottom: 10px;
 }
 #password {
@@ -206,4 +207,11 @@ header button {
 
 .item-tally {
     padding: 5px;
+}
+
+.details-header {
+    background-color: rgb(31, 30, 30);
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
 }

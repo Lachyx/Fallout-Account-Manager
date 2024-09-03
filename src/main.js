@@ -14,9 +14,9 @@ function createWindow() {
         icon: path.join(__dirname, './assets/images/logo.ico'),
     });
     Menu.setApplicationMenu(null)
-    win.loadFile('src/html/index.html');
+    win.loadFile(path.join(__dirname, 'index.html'));
     win.on('ready-to-show', win.show)
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {

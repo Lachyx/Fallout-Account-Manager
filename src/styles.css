@@ -121,23 +121,6 @@ header button {
     text-decoration: none;
     margin-bottom: 10px;
 }
-#password {
-    margin-right: 10px;
-}
-
-#toggle-password,
-#copy-password {
-    font-size: 18px;
-    color: grey;
-    margin-left: 10px;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-#toggle-password:hover,
-#copy-password:hover {
-    color: rgb(70, 60, 60);
-}
 
 .details-block {
     background-color: rgb(31, 30, 30);

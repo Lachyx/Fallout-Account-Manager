@@ -9,14 +9,15 @@ function createWindow() {
         show: false,
         webPreferences: {
             preload: path.join(__dirname, './preload.js'),
-            nodeIntegration: false, 
+            nodeIntegration: true,
+            enableRemoteModule: true
         },
         icon: path.join(__dirname, './assets/images/logo.ico'),
     });
     Menu.setApplicationMenu(null)
     win.loadFile(path.join(__dirname, 'index.html'));
     win.on('ready-to-show', win.show)
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {
@@ -36,12 +37,19 @@ app.on('activate', () => {
 });
 
 const exampleAccounts = {
-  "This can be anyname": {
-    "playerInventory": [],
-    "stashInventory": [],
-    "AccountInfoData": { "name": "Example" },
-    "CharacterInfoData": { "level": 20, "name": "Hi" }
-  }
+        "characterInventories": {
+        "This can be anyname": {
+          "playerInventory": [],
+          "stashInventory": [],
+          "AccountInfoData": {
+            "name": "Example"
+          },
+          "CharacterInfoData": {
+            "level": 20,
+            "name": "Hi"
+          }
+        }
+      }
 };
 
 ipcMain.handle('load-accounts', async () => {

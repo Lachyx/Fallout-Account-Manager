@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain, Menu, shell } = require('electron');
 const path = require('path');
-const fs = require('fs')
+const fs = require('fs');
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -8,16 +8,18 @@ function createWindow() {
         height: 800,
         show: false,
         webPreferences: {
-            preload: path.join(__dirname, './preload.js'),
+            preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true,
             enableRemoteModule: true
         },
         icon: path.join(__dirname, './assets/images/logo.ico'),
     });
+
+    if(require('electron-squirrel-startup')) app.quit();
+
     Menu.setApplicationMenu(null)
     win.loadFile(path.join(__dirname, 'index.html'));
     win.on('ready-to-show', win.show)
-    win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {
@@ -36,7 +38,7 @@ app.on('activate', () => {
     }
 });
 
-const exampleAccounts = {
+const ExampleData = {
         "characterInventories": {
         "This can be anyname": {
           "playerInventory": [],
@@ -54,7 +56,7 @@ const exampleAccounts = {
 
 ipcMain.handle('load-accounts', async () => {
   try {
-      const dataFolderPath = path.join(app.getPath('appData'), 'fallout-account-manager', 'Data');
+      const dataFolderPath = path.join(app.getPath('appData'), 'Fallout Account Manager', 'Data');
 
       if (!fs.existsSync(dataFolderPath)) {
           fs.mkdirSync(dataFolderPath, { recursive: true });
@@ -64,7 +66,7 @@ ipcMain.handle('load-accounts', async () => {
 
       if (jsonFiles.length === 0) {
           const filePath = path.join(dataFolderPath, 'example.json');
-          fs.writeFileSync(filePath, JSON.stringify(exampleAccounts, null, 2));
+          fs.writeFileSync(filePath, JSON.stringify(ExampleData, null, 2));
           console.log("No JSON files found. Created example.json");
       }
 
@@ -94,12 +96,15 @@ ipcMain.handle('load-accounts', async () => {
 });
 
 ipcMain.handle('folder-open', () => {
-  const dataFolderPath = path.join(require('electron').app.getPath('appData'), 'fallout-account-manager', 'Data');
-  shell.openPath(dataFolderPath);
-})
+    const dataFolderPath = path.join(app.getPath('appData'), 'Fallout Account Manager', 'Data');
+    if (!fs.existsSync(dataFolderPath)) {
+        fs.mkdirSync(dataFolderPath, { recursive: true });
+    }
+    return shell.openPath(dataFolderPath);
+});
 
 ipcMain.handle('save-file', async (event, filename, data) => {
-    const dataDir = path.join(require('electron').app.getPath('appData'), 'fallout-account-manager', 'Data');
+    const dataDir = path.join(app.getPath('appData'), 'Fallout Account Manager', 'Data');
     const filePath = path.join(dataDir, filename);
     try {
         await fs.promises.writeFile(filePath, data);

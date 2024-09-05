@@ -20,7 +20,6 @@ function createWindow() {
     Menu.setApplicationMenu(null)
     win.loadFile(path.join(__dirname, 'index.html'));
     win.on('ready-to-show', win.show)
-    win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {

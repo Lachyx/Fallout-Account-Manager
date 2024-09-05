@@ -11,6 +11,9 @@
 li, a, button {
     font-size: 16px;
     text-decoration: none;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -59,6 +62,7 @@ header button {
     border-radius: 100%;
     background-size: 400% 400%;
     -webkit-background-clip: text;
+
     -webkit-text-fill-color: transparent;
     font-weight: 700;
     display: flex;
@@ -90,12 +94,17 @@ header button {
     gap: 20px;
     padding: 20px;
     z-index: 1;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .accounts {
     background-color: rgb(31, 30, 30);
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .accounts h2 {
@@ -103,6 +112,9 @@ header button {
 }
 
 .account-block {
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     background-color: rgb(41, 41, 41);
     padding: 10px;
     margin: 5px;
@@ -116,16 +128,20 @@ header button {
 }
 
 .details-item {
+    background-color: transparent;
     display: flex;
     align-items: center;
     text-decoration: none;
     margin-bottom: 10px;
+    
 }
 
 .details-block {
-    background-color: rgb(31, 30, 30);
+    background-color: transparent;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .details-grid #details-item{
@@ -172,10 +188,10 @@ header button {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     background-color: rgb(41, 41, 41);
-    color: #edf0f1;
     font-size: 16px;
 }
 
@@ -193,8 +209,10 @@ header button {
 }
 
 .details-header {
-    background-color: rgb(31, 30, 30);
     padding: 20px;
     border-radius: 5px;
     margin-bottom: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

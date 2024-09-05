@@ -9,7 +9,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     
           const AccountNames = Object.keys(AccountsData.characterInventories);
     
-          if (AccountNames.length === 0) {
+          if (!AccountNames.length) {
             AccountsContainer.textContent = "No accounts available.";
             return;
           }
@@ -40,10 +40,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             "Error loading accounts.";
         }
       }
-  
-      addAccounts();
-  
-      setInterval(() => addAccounts(), 5000);
+      addAccounts()
   
     } catch (Error) {
       console.error("Failed to load accounts:", Error);

@@ -4,6 +4,7 @@ Simple and efficient Fallout 76 inventory management system
 ![GitHub issues](https://img.shields.io/github/issues/Lachyx/Fallout-Account-Manager) 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Lachyx/Fallout-Account-Manager)
 ![GitHub All Releases](https://img.shields.io/github/downloads/Lachyx/Fallout-Account-Manager/total)
+![GitHub Stars](https://img.shields.io/github/stars/Lachyx/Fallout-Account-Manager)
 
 > [!NOTE]  
 > This is my first ever desktop application so any bugs please open a bug report

@@ -36,8 +36,7 @@ window.addEventListener("DOMContentLoaded", async () => {
           });
         } else {
           console.error("Accounts data or characterInventories is not defined.");
-          document.querySelector(".accounts").textContent =
-            "Error loading accounts.";
+          document.querySelector(".accounts").textContent = "Error loading accounts.";
         }
       }
       addAccounts()
@@ -114,9 +113,7 @@ function LoadInventory(Account) {
       OldItems.forEach((item) => item.remove());
       DetailsBlock.appendChild(ItemsContainer);
 
-      ItemCount.textContent = `${FilteredItems.length}/${
-        Object.keys(DescriptionTally).length
-      }`;
+      ItemCount.textContent = `${FilteredItems.length}/${Object.keys(DescriptionTally).length}`;
     }
 
     const ItemsArray = Object.entries(DescriptionTally);
@@ -131,8 +128,7 @@ function LoadInventory(Account) {
     });
   } else {
     console.error("No inventory data found for the selected account.");
-    document.querySelector(".details-block").textContent =
-      "No inventory data available.";
+    document.querySelector(".details-block").textContent = "No inventory data available.";
     document.getElementById("item-count").textContent = "0/0";
   }
 }

@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, Menu, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const dataFolder = path.join(app.getPath('appData'), 'Fallout Account Manager', 'Data');
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -15,99 +16,69 @@ function createWindow() {
         icon: path.join(__dirname, './assets/images/logo.ico'),
     });
 
-    if(require('electron-squirrel-startup')) app.quit();
+    if (require('electron-squirrel-startup')) app.quit();
 
-    Menu.setApplicationMenu(null)
+    Menu.setApplicationMenu(null);
     win.loadFile(path.join(__dirname, 'index.html'));
-    win.on('ready-to-show', win.show)
+    win.on('ready-to-show', win.show);
 }
 
-app.whenReady().then(() => {
-    createWindow();
-});
+app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
+    if (process.platform !== 'darwin') app.quit();
 });
 
 app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow();
-    }
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
 });
 
-const ExampleData = {
-        "characterInventories": {
-        "This can be anyname": {
-          "playerInventory": [],
-          "stashInventory": [],
-          "AccountInfoData": {
-            "name": "Example"
-          },
-          "CharacterInfoData": {
-            "level": 20,
-            "name": "Hi"
-          }
-        }
-      }
-};
-
 ipcMain.handle('load-accounts', async () => {
-  try {
-      const dataFolderPath = path.join(app.getPath('appData'), 'Fallout Account Manager', 'Data');
+    try {
+        const exampleData = {
+            characterInventories: {
+                "Example Account": {
+                    playerInventory: [],
+                    stashInventory: [],
+                    AccountInfoData: { name: "Example" },
+                    CharacterInfoData: { level: 20, name: "Hi" }
+                }
+            }
+        };
 
-      if (!fs.existsSync(dataFolderPath)) {
-          fs.mkdirSync(dataFolderPath, { recursive: true });
-      }
+        if (!fs.existsSync(dataFolder)) fs.mkdirSync(dataFolder, { recursive: true });
 
-      const jsonFiles = fs.readdirSync(dataFolderPath).filter(file => file.endsWith('.json'));
+        const jsonFiles = fs.readdirSync(dataFolder).filter(file => file.endsWith('.json'));
 
-      if (jsonFiles.length === 0) {
-          const filePath = path.join(dataFolderPath, 'example.json');
-          fs.writeFileSync(filePath, JSON.stringify(ExampleData, null, 2));
-          console.log("No JSON files found. Created example.json");
-      }
+        if (jsonFiles.length === 0) {
+            fs.writeFileSync(path.join(dataFolder, 'example.json'), JSON.stringify(exampleData, null, 2));
+        }
 
-      let allData = {};
-      jsonFiles.forEach(file => {
-          try {
-              const filePath = path.join(dataFolderPath, file);
-              const fileData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-              
-              if (fileData.characterInventories) {
-                  allData = { ...allData, ...fileData.characterInventories };
-              } else {
-                  console.error(`No characterInventories found in ${file}`);
-              }
-              
-              console.log(`Loaded data from ${file}:`, fileData);
-          } catch (err) {
-              console.error(`Error reading or parsing file ${file}:`, err);
-          }
-      });
+        let allData = {};
+        jsonFiles.forEach(file => {
+            try {
+                const fileData = JSON.parse(fs.readFileSync(path.join(dataFolder, file), 'utf-8'));
+                if (fileData.characterInventories) allData = { ...allData, ...fileData.characterInventories };
+            } catch (err) {
+                console.error(`Error reading or parsing ${file}:`, err);
+            }
+        });
 
-      return { characterInventories: allData };
-  } catch (error) {
-      console.error("Failed to load accounts:", error);
-      throw error; 
-  }
+        return { characterInventories: allData };
+    } catch (error) {
+        console.error("Failed to load accounts:", error);
+        throw error;
+    }
 });
 
 ipcMain.handle('folder-open', () => {
-    const dataFolderPath = path.join(app.getPath('appData'), 'Fallout Account Manager', 'Data');
-    if (!fs.existsSync(dataFolderPath)) {
-        fs.mkdirSync(dataFolderPath, { recursive: true });
-    }
-    return shell.openPath(dataFolderPath);
+    if (!fs.existsSync(dataFolder)) fs.mkdirSync(dataFolder, { recursive: true });
+    return shell.openPath(dataFolder);
 });
 
 ipcMain.handle('save-file', async (event, filename, data) => {
-    const dataDir = path.join(app.getPath('appData'), 'Fallout Account Manager', 'Data');
-    const filePath = path.join(dataDir, filename);
     try {
-        await fs.promises.writeFile(filePath, data);
+        await fs.promises.writeFile(path.join(dataFolder, filename), data);
         return 'File saved successfully';
     } catch (error) {
         throw new Error('Failed to save file: ' + error.message);

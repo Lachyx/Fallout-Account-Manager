@@ -61,7 +61,7 @@ function LoadInventory(Account) {
       let DescriptionFound = false;
 
       Item.ItemCardEntries.forEach((Entry) => {
-        if (Entry.text === "DESC" && !Item.isQuestItem) {
+        if (Entry.text === "DESC") {
           DescriptionFound = true;
           const Key = `${ItemName} - ${Entry.value}`;
 
@@ -73,7 +73,7 @@ function LoadInventory(Account) {
         }
       });
 
-      if (!DescriptionFound && !Item.isQuestItem) {
+      if (!DescriptionFound) {
         const Key = `${ItemName}`;
         if (DescriptionTally[Key]) {
           DescriptionTally[Key] += ItemCount;
